@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Records - Holy Family Dental Clinic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #00bfff;
+            --secondary-color: #2c3e50;
+            --light-gray: #f5f7fa;
+            --medium-gray: #e1e5eb;
+            --dark-gray: #6c757d;
+            --white: #ffffff;
+            --success-color: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 20px 0;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo h2 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: var(--primary-color);
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0 15px;
+        }
+        
+        .nav-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: rgba(0, 191, 255, 0.2);
+            color: var(--white);
+        }
+        
+        .nav-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px 30px;
+        }
+        
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+        }
+        
+        .current-time {
+            text-align: right;
+        }
+        
+        .current-time .time {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .current-time .date {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Patient Profile Section */
+        .patient-profile {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .profile-header h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .profile-id {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .detail-group h3 {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .detail-group p {
+            font-weight: 500;
+        }
+        
+        /* Appointments Table */
+        .appointments {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+        
+        .section-header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        tr:hover {
+            background-color: rgba(0, 191, 255, 0.05);
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status.completed {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        /* Dental Progress */
+        .dental-progress {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .progress-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .progress-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                height: auto;
+                position: relative;
+            }
+            
+            .profile-details {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .current-time {
+                margin-top: 15px;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Holy Family Dental Clinic Logo" width="120">
+                <h2>HOLY FAMILY DENTAL CLINIC</h2>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="records.html" class="active"><i class="fas fa-file-medical"></i> Dental Records</a></li>
+                <li><a href="forms.html"><i class="fas fa-clipboard-list"></i> Forms</a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> My Gallery</a></li>
+                <li><a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1>Dashboard</h1>
+                <div class="current-time">
+                    <div class="time" id="currentTime">02:03 AM</div>
+                    <div class="date" id="currentDate">Wednesday, April 9, 2023</div>
+                </div>
+            </div>
+            
+
+            
+            <!-- Patient Profile Section -->
+            <section class="patient-profile">
+                <div class="profile-header">
+                    <h2>Patient Profile</h2>
+                    <span class="profile-id">HTDC-2023-001</span>
+                </div>
+                
+                <div class="profile-details">
+                    <div class="detail-group">
+                        <h3>Name</h3>
+                        <p>Sammuel Cabison</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Birthdate</h3>
+                        <p>June 15, 1991</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Age</h3>
+                        <p>32</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Gender</h3>
+                        <p>Male</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Home Address</h3>
+                        <p>123 Main St., Quozton City</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Occupation</h3>
+                        <p>Software Engineer</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Religion</h3>
+                        <p>Roman Catholic</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Mobile Number</h3>
+                        <p>+45 919 245 6749</p>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Email Address</h3>
+                        <p>sammycabisheesh@example.com</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Appointments Section -->
+            <section class="appointments">
+                <div class="section-header">
+                    <h2>Appointments</h2>
+                </div>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Procedure</th>
+                                <th>Cost</th>
+                                <th>Dentist</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>January 10, 2024 - 9:00 AM</td>
+                                <td>Topical Fluoride</td>
+                                <td>₱5,000</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>October 20, 2023 - 10:30 AM</td>
+                                <td>Oral Prophylaxis</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>August 15, 2023 - 2:00 PM</td>
+                                <td>Pit and Fissure Sealants</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>July 5, 2023 - 11:00 AM</td>
+                                <td>Topical Fluoride</td>
+                                <td>₱1,200</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>June 1, 2023 - 9:30 AM</td>
+                                <td>Pit and Fissure Sealants</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>June 1, 2023 - 9:30 AM</td>
+                                <td>Oral Prophylaxis</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>June 1, 2023 - 9:30 AM</td>
+                                <td>Oral Prophylaxis</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>June 1, 2023 - 9:30 AM</td>
+                                <td>Oral Prophylaxis</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>June 1, 2023 - 9:30 AM</td>
+                                <td>Oral Prophylaxis</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>June 1, 2023 - 9:30 AM</td>
+                                <td>Oral Prophylaxis</td>
+                                <td>₱1,500</td>
+                                <td>Dr. Resurreccion</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td><button class="action-btn"><i class="fas fa-check"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Dental Progress Section -->
+            <section class="dental-progress">
+                <div class="section-header">
+                    <h2>Dental Progress</h2>
+                </div>
+                
+                <div class="progress-item">
+                    <input type="checkbox" id="progress-all" checked>
+                    <label for="progress-all">Own All</label>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Update current time and date
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Format time
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes} ${ampm}`;
+            
+            // Format date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', options);
+            
+            // Update DOM
+            document.getElementById('currentTime').textContent = timeString;
+            document.getElementById('currentDate').textContent = dateString;
+        }
+        
+        // Update immediately and then every minute
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+    </script>
+</body>
+</html>
